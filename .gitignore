@@ -58,3 +58,4 @@ jeter*
 src/htslib
 *.aux
 *.log
+.Rproj.user

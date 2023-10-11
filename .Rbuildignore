@@ -1,13 +1,12 @@
 .*.a$
 .*.o$
 .*.so$
-^src/htslib/.*$
 src/htslib.a$
 src/htslib.so$
 \.gitmodules
 \.gitignore
 .travis\.yml
-^src/htslib
+^src/htslib/
 ^\.git
 err
 jeter.*

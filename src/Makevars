@@ -1,4 +1,4 @@
-HSTLIB_VERSION="1.10.2"
+HTSLIB_VERSION=1.10.2
 HTSDIR=htslib
 OBJECTS=rbcf.o $(HTSDIR)/libhts.a
 PKG_CFLAGS=
@@ -22,12 +22,13 @@ rbcf_version.h:
 $(HTSDIR)/libhts.so $(HTSDIR)/libhts.a $(HTSLIB)/version.h : $(HTSDIR)/Makefile
 	$(MAKE) -C $(HTSDIR) $(notdir $@)
 
+htslib-$(HTSLIB_VERSION).tar.bz2:
+	wget -O "$@" "https://github.com/samtools/htslib/releases/download/$(HTSLIB_VERSION)/htslib-$(HTSLIB_VERSION).tar.bz2"
 	
-$(HTSDIR)/Makefile:
+$(HTSDIR)/Makefile: htslib-$(HTSLIB_VERSION).tar.bz2
 	rm -rf "$(HTSDIR)"
-	wget -O "htslib-$(HSTLIB_VERSION).tar.bz2" "https://github.com/samtools/htslib/releases/download/$(HSTLIB_VERSION)/htslib-$(HSTLIB_VERSION).tar.bz2"
-	tar xfj htslib-$(HSTLIB_VERSION).tar.bz2
-	mv "htslib-$(HSTLIB_VERSION)" "$(HTSDIR)"
+	tar xfj htslib-$(HTSLIB_VERSION).tar.bz2
+	mv "htslib-$(HTSLIB_VERSION)" "$(HTSDIR)"
 	(cd $(HTSDIR) && ./configure --without-libdeflate && sed -i '/^CFLAGS/s/$$/ -fPIC/' config.mk) || rm $@
 
 clean:
