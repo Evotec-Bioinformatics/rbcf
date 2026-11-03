@@ -4,7 +4,7 @@ Date: 2020-04-27
 Title: vcf and bcf processing
 Author: Pierre Lindenbaum <plindenbaum@yahoo.fr>
 Maintainer: Pierre Lindenbaum  <plindenbaum@yahoo.fr>
-Depends: R (>= 3.0.0)
+Depends: R (>= 3.4.0)
 Description: C Bindings to htslib (<https://github.com/samtools/htslib>)  for reading vcf/bcf files.
      The package contains a set of functions to open/close/scan/query a vcf/bcf file, as well a
      some functions to extract data from variants and genotypes.
