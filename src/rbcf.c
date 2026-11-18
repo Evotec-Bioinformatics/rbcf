@@ -177,7 +177,7 @@ static void RBcfFileFree(final RBcfFilePtr ptr) {
 	if ( ptr->tbx ) tbx_destroy(ptr->tbx);
     if ( ptr->idx ) hts_idx_destroy(ptr->idx);
 	if ( ptr->fp ) hts_close(ptr->fp);
-	Free(ptr);
+	R_Free(ptr);
 	}
 
 /**
@@ -230,7 +230,7 @@ SEXP RBcfFileOpen(SEXP Rfilename,SEXP sexpRequireIdx) {
 		return R_NilValue;
 		}
 	
-	handler = (RBcfFilePtr)(Calloc(1UL,RBcfFile));
+	handler = (RBcfFilePtr)(R_Calloc(1UL,RBcfFile));
 	if(handler==NULL) {
 		BCF_WARNING("Out of memory");
 		goto die;
@@ -340,7 +340,7 @@ SEXP RBcfNewWriter(SEXP sexpIn,SEXP Rfilename) {
 		return R_NilValue;
 		}
 	
-	handler = (RBcfFilePtr)(Calloc(1UL,RBcfFile));
+	handler = (RBcfFilePtr)(R_Calloc(1UL,RBcfFile));
 	if(handler==NULL) {
 		BCF_WARNING("Out of memory");
 		goto die;
@@ -1344,7 +1344,7 @@ static void scanGenotype(bcf_hdr_t* hdr,bcf1_t *ctx,int sample_idx, struct Genot
   			 if(shuttle->alleles != NULL) {
   			 	if(shuttle->allele_count + 1 >= shuttle->allele_capacity) {
   			 		shuttle->allele_capacity++;
-  			 		shuttle->alleles =Realloc(shuttle->alleles,shuttle->allele_capacity,int);
+  			 		shuttle->alleles =R_Realloc(shuttle->alleles,shuttle->allele_capacity,int);
   			 		ASSERT_NOT_NULL(shuttle->alleles);	
   			 		}
   			 	shuttle->alleles[shuttle->allele_count] = allele_index ;
@@ -1368,7 +1368,7 @@ SEXP RBcfCtxVariantGtAllelesIndexes0(SEXP sexpGt) {
 
 	memset((void*)&shuttle,0,sizeof(struct GenotypeShuttle));
 	shuttle.allele_capacity=10;
-	shuttle.alleles =Calloc(shuttle.allele_capacity,int);
+	shuttle.alleles =R_Calloc(shuttle.allele_capacity,int);
 	scanGenotype(hdr,ctx,sample_index,&shuttle);
 	if(shuttle.error_flag)
 		{
@@ -1381,7 +1381,7 @@ SEXP RBcfCtxVariantGtAllelesIndexes0(SEXP sexpGt) {
 			INTEGER(ext)[i] = shuttle.alleles[i];
 			}
 		}
-	Free(shuttle.alleles);
+	R_Free(shuttle.alleles);
 	UNPROTECT(nprotect);
 	return ext;
 	}
